@@ -6,6 +6,9 @@ to simulate
 - yield/Promise in node.js, [co](https://github.com/tj/co)
 - async/await/Task in C#,
 
+* checkout blog http://magicdawn.ml/2015/01/10/generator-and-promise/ *
+
+
 use like
 
 ```go
