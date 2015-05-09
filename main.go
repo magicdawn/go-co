@@ -12,7 +12,7 @@ func sleep(ms int64) (t Task) {
 	t.Result = make(chan interface{}, 1)
 
 	go func() {
-		// sleep 2 seconds
+		// sleep a while
 		time.Sleep(time.Millisecond * time.Duration(ms))
 
 		// task is done
@@ -24,7 +24,18 @@ func sleep(ms int64) (t Task) {
 	return t
 }
 
-func Co(fn func(func(t Task) interface{})) (t Task) {
+func sleepAsync(ms int64) Task {
+	return Co(func(await func(Task) interface{}) interface{} {
+		time.Sleep(time.Millisecond * time.Duration(ms))
+		return nil
+	})
+}
+
+func Co(
+	fn func(func(Task) interface{}) interface{}, // any : fn(await)
+) (t Task) {
+
+	t.Result = make(chan interface{})
 
 	await := func(t Task) interface{} {
 		// when t.Result is available
@@ -35,19 +46,30 @@ func Co(fn func(func(t Task) interface{})) (t Task) {
 	}
 
 	// run the task
-	fn(await)
+	// collect the result
+	// set as the ret Task's value
+	go func() {
+		result := fn(await)
+		t.Result <- result
+	}()
 
 	return t
 }
 
 func main() {
-	Co(func(await func(Task) interface{}) {
+	t := Co(func(await func(Task) interface{}) interface{} {
 
 		fmt.Println("before sleep : ", time.Now())
-
 		res := await(sleep(1000))
 		fmt.Println("result is ", res)
-
 		fmt.Println("after sleep : ", time.Now())
+
+		fmt.Println("before sleepAsync : ", time.Now())
+		res = await(sleepAsync(2000))
+		fmt.Println("before sleepAsync : ", time.Now())
+
+		return 1
 	})
+
+	<-t.Result
 }
