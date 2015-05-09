@@ -1,11 +1,14 @@
 # go-co
+
+[![GoDoc](https://godoc.org/github.com/magicdawn/go-co?status.svg)](https://godoc.org/github.com/magicdawn/go-co)
+
 coroutine , async/await for golang
 
 ## Goals
 
 to simulate 
 - yield/Promise in node.js, [co](https://github.com/tj/co)
-- async/await/Task in C#,
+- async/await/Task in C#
 
 *checkout blog http://magicdawn.ml/2015/01/10/generator-and-promise/*
 
@@ -28,6 +31,7 @@ import "github.com/magicdawn/go-co"
         })
     }
     ```
+    
     here is a Task will need 10 seconds
 
 *more checkout demo/demo.go*

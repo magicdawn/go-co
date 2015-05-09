@@ -12,7 +12,7 @@ import "github.com/magicdawn/go-co"
  * construct a Task manualy
  */
 func sleep(ms int64) (t co.Task) {
-	t.Result = make(chan interface{}, 1)
+	t.Channel = make(chan interface{}, 1)
 
 	go func() {
 		// sleep a while
@@ -21,7 +21,7 @@ func sleep(ms int64) (t co.Task) {
 		// task is done
 		// 10 is the result
 		// send via channel
-		t.Result <- nil
+		t.Channel <- nil
 	}()
 
 	return t

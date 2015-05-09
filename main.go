@@ -1,52 +1,55 @@
+/*
+async/await for glolang
+*/
 package co
 
-// import "time"
-// import "fmt"
-
+/*
+Task definition
+*/
 type Task struct {
-	Result chan interface{}
+	// communicate via Channel
+	Channel chan interface{}
+
+	// store the result of the Task
+	Result interface{}
 }
 
-/**
- * create a new Task
- *
- * e.g
- * 	co.Async(func() interface{}{
- * 		return val
- * 		// val will be Task's Result
- * 	})
- */
+/*
+	create a new Task
+
+	e.g
+	co.Async(func() interface{}{
+		return val
+		// val will be Task's Result
+	})
+
+	手动构造Task
+	维护Result & 向channel发送result
+*/
 func Async(fn func() interface{}) (t Task) {
-	t.Result = make(chan interface{})
+	t.Channel = make(chan interface{})
 
 	// run the task
 	// collect the result
-	// set as the ret Task's Result
+	// set as the ret Task's Channel
 	go func() {
-		result := fn()
-		t.Result <- result
+		t.Result = fn()
+		t.Channel <- t.Result
 	}()
 
 	return t
 }
 
-/**
- * await a Task & return it's result
- *
- * e.g
- * res := co.Await(Task)
- *
- * if `generic type exists`
- *
- * 	func Await(t Task<T>) T{
- * 		result := <- t.Result // t.Result is (chan T)
- * 		return result
- * 	}
- */
+/*
+	await a Task & return it's result
+
+	e.g
+	res := co.Await(Task)
+*/
 func Await(t Task) interface{} {
-	// when t.Result is available
+	// when t.Channel is available
 	// set result as await ret value
 	// `result = await(Task)`
-	result := <-t.Result
-	return result
+	t.Result = <-t.Channel
+	return t.Result
 }
