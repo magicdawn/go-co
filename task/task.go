@@ -25,6 +25,7 @@ func Parallel(tasks []Task, concurrency int32) (taskRet Task) {
 	oncomplete := func() {
 		if completed >= total {
 			t.Channel <- t.Result
+			return
 		}
 
 		for started < total && running < concurrency {
