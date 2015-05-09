@@ -20,7 +20,7 @@ import "github.com/magicdawn/go-co"
     result := co.Await(task)
     ```
 - co.Async: make a Task
-	```go
+    ```go
     func sleep() co.Task{
     	return co.Async(func() interface{}{
         	time.sleep(time.Seconds * 10)
