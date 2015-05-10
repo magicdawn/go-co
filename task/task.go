@@ -3,46 +3,59 @@ package task
 import . "github.com/magicdawn/go-co"
 
 /*
-
-parallel task
-
+  task.Map(array,func(item,index) Task,concurrency)
 */
-func Parallel(tasks []Task, concurrency int32) (taskRet Task) {
-	taskRet.Channel = make(chan []interface{})
-	taskRet.Result = make([]interface{})
+func Map(
+	items []interface{},
+	fn func(interface{}, int) Task,
+	concurrency int) (taskRet Task) {
 
-	total := len(tasks)
-	result := make([]interface{}, total)
-
+	// control flow
+	total := len(items)
 	running := 0
 	started := 0
 	completed := 0
 
+	// prepare taskRet
+	taskRet.Channel = make(chan interface{}, 1)
+	taskRet.Result = make([]interface{}, total)
+
+	// concurrency
 	if concurrency < 1 {
 		concurrency = 1
 	}
 
-	oncomplete := func() {
+	var oncomplete func()
+
+	// oncomplete callback
+	oncomplete = func() {
 		if completed >= total {
-			t.Channel <- t.Result
+			taskRet.Channel <- taskRet.Result
 			return
 		}
 
 		for started < total && running < concurrency {
-			t := tasks[started]
-			started++
-			running++
 
-			go func(index int, t Task) {
-				taskRet.Result[index] = Await(t)
+			// start
+			go func(item interface{}, index int) {
+				// new Task
+				t := fn(item, index)
+
+				// collect the result
+				taskRet.Result.([]interface{})[index] = Await(t)
 
 				running--
 				completed++
 
 				oncomplete()
-			}(running, t)
+			}(items[started], started)
+
+			started++
+			running++
 		}
 	}
 
 	go oncomplete()
+
+	return taskRet
 }
