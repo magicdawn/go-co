@@ -1,11 +1,11 @@
-/*
-async/await for glolang
-*/
+//
+// async/await for glolang
+//
 package co
 
-/*
-Task definition
-*/
+//
+// Task definition
+//
 type Task struct {
 	// communicate via Channel
 	Channel chan interface{}
@@ -14,18 +14,17 @@ type Task struct {
 	Result interface{}
 }
 
-/*
-	create a new Task
+//
+// create a new Task
+//
+// execute fn , save the result, send to channel
+//
+// e.g
+// co.Async(func() interface{}{
+// 	return val
+// 	// val will be Task's Result
+// })
 
-	e.g
-	co.Async(func() interface{}{
-		return val
-		// val will be Task's Result
-	})
-
-	手动构造Task
-	维护Result & 向channel发送result
-*/
 func Async(fn func() interface{}) (t Task) {
 	t.Channel = make(chan interface{})
 
@@ -40,12 +39,11 @@ func Async(fn func() interface{}) (t Task) {
 	return t
 }
 
-/*
-	await a Task & return it's result
-
-	e.g
-	res := co.Await(Task)
-*/
+// await a Task & return it's result
+//
+// e.g
+// res := co.Await(Task)
+//
 func Await(t Task) interface{} {
 	// when t.Channel is available
 	// set result as await ret value

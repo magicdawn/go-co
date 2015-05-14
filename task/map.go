@@ -1,14 +1,19 @@
 package task
 
-import . "github.com/magicdawn/go-co"
+import "github.com/magicdawn/go-co"
+import . "github.com/tj/go-debug"
 
-/*
-  task.Map(array,func(item,index) Task,concurrency)
-*/
+// run with
+// DEBUG=goco:demo:* go run map.go
+var debug = Debug("goco:demo:map")
+
+//
+// task.Map(array,func(item,index) Task,concurrency)
+//
 func Map(
 	items []interface{},
-	fn func(interface{}, int) Task,
-	concurrency int) (taskRet Task) {
+	fn func(interface{}, int) co.Task,
+	concurrency int) (taskRet co.Task) {
 
 	// control flow
 	total := len(items)
@@ -17,8 +22,12 @@ func Map(
 	completed := 0
 
 	// prepare taskRet
-	taskRet.Channel = make(chan interface{}, 1)
+	taskRet.Channel = make(chan interface{}) // can't use `chan []interface{}`
 	taskRet.Result = make([]interface{}, total)
+	// result := []interface{}{}
+
+	// test chan
+	// taskRet.Channel <- []int{1, 2, 3, 4}
 
 	// concurrency
 	if concurrency < 1 {
@@ -38,11 +47,13 @@ func Map(
 
 			// start
 			go func(item interface{}, index int) {
+				debug("starting %d", index)
+
 				// new Task
 				t := fn(item, index)
 
 				// collect the result
-				taskRet.Result.([]interface{})[index] = Await(t)
+				taskRet.Result.([]interface{})[index] = co.Await(t)
 
 				running--
 				completed++
