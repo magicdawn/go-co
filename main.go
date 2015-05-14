@@ -3,6 +3,12 @@
 //
 package co
 
+import (
+	. "github.com/tj/go-debug"
+)
+
+var debug = Debug("goco:main")
+
 //
 // Task definition
 //
@@ -18,7 +24,7 @@ type Task struct {
 }
 
 //
-// create a new Task
+// create a new *Task
 //
 // execute fn , save the result, send to channel
 //
@@ -28,19 +34,25 @@ type Task struct {
 // 	// val will be Task's Result
 // })
 
-func Async(fn func() interface{}) (t Task) {
+func Async(fn func() interface{}) *Task {
+	t := new(Task)
 	t.Channel = make(chan interface{})
 
 	// run the task
 	// collect the result
 	// set as the ret Task's Channel
 	go func() {
+		// final work
+		defer func() {
+			if err := recover(); err != nil {
+				t.Error = err.(error)
+			}
+
+			// error is a finish state too
+			t.Channel <- t.Result
+		}()
+
 		t.Result = fn()
-
-		// error?
-		t.Error = recover()
-
-		t.Channel <- t.Result
 	}()
 
 	return t
@@ -51,10 +63,11 @@ func Async(fn func() interface{}) (t Task) {
 // e.g
 // res := co.Await(Task)
 //
-func Await(t Task) (interface{}, error) {
+func Await(t *Task) (interface{}, error) {
 	// when t.Channel is available
 	// set result as await ret value
 	// `result = await(Task)`
 	t.Result = <-t.Channel
+
 	return t.Result, t.Error
 }

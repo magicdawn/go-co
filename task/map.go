@@ -5,15 +5,15 @@ import . "github.com/tj/go-debug"
 
 // run with
 // DEBUG=goco:demo:* go run map.go
-var debug = Debug("goco:demo:map")
+var debug = Debug("goco:task:map")
 
 //
-// task.Map(array,func(item,index) Task,concurrency)
+// task.Map(array,func(item,index) *co.Task,concurrency)
 //
 func Map(
 	items []interface{},
-	fn func(interface{}, int) co.Task,
-	concurrency int) (taskRet co.Task) {
+	fn func(interface{}, int) *co.Task,
+	concurrency int) *co.Task {
 
 	// control flow
 	total := len(items)
@@ -22,9 +22,9 @@ func Map(
 	completed := 0
 
 	// prepare taskRet
+	taskRet := new(co.Task)
 	taskRet.Channel = make(chan interface{}) // can't use `chan []interface{}`
 	taskRet.Result = make([]interface{}, total)
-	// result := []interface{}{}
 
 	// test chan
 	// taskRet.Channel <- []int{1, 2, 3, 4}
@@ -47,17 +47,21 @@ func Map(
 
 			// start
 			go func(item interface{}, index int) {
-				debug("starting %d", index)
 
 				// new Task
+				debug("starting %d", index)
+				// return Task will not panic
 				t := fn(item, index)
 
 				// collect the result
-				taskRet.Result.([]interface{})[index] = co.Await(t)
+				// do not panic in map function
+				taskRet.Result.([]interface{})[index], _ = co.Await(t)
 
+				// maintain control flow
 				running--
 				completed++
 
+				// notify
 				oncomplete()
 			}(items[started], started)
 
@@ -67,6 +71,13 @@ func Map(
 	}
 
 	go oncomplete()
+
+	// collect error here
+	defer func() {
+		if err := recover(); err != nil {
+			taskRet.Error = err.(error)
+		}
+	}()
 
 	return taskRet
 }
