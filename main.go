@@ -12,6 +12,9 @@ type Task struct {
 
 	// store the result of the Task
 	Result interface{}
+
+	// store error
+	Error error
 }
 
 //
@@ -33,6 +36,10 @@ func Async(fn func() interface{}) (t Task) {
 	// set as the ret Task's Channel
 	go func() {
 		t.Result = fn()
+
+		// error?
+		t.Error = recover()
+
 		t.Channel <- t.Result
 	}()
 
@@ -44,10 +51,10 @@ func Async(fn func() interface{}) (t Task) {
 // e.g
 // res := co.Await(Task)
 //
-func Await(t Task) interface{} {
+func Await(t Task) (interface{}, error) {
 	// when t.Channel is available
 	// set result as await ret value
 	// `result = await(Task)`
 	t.Result = <-t.Channel
-	return t.Result
+	return t.Result, t.Error
 }
