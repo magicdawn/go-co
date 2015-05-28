@@ -5,7 +5,7 @@ import . "github.com/tj/go-debug"
 
 // run with
 // DEBUG=goco:demo:* go run map.go
-var debug = Debug("goco:task:each")
+// var debug = Debug("goco:task:each")
 
 //
 // task.Each(array,func(item,index) *co.Task)
