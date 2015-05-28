@@ -1,7 +1,8 @@
 package task
 
 import "github.com/magicdawn/go-co"
-import . "github.com/tj/go-debug"
+
+// import . "github.com/tj/go-debug"
 
 // run with
 // DEBUG=goco:demo:* go run map.go
@@ -22,8 +23,7 @@ func Each(
 	go func() {
 		for index, item := range items {
 			var t = fn(item, index)
-			var err error
-			taskRet.Result.([]interface{})[index], err = co.Await(t)
+			taskRet.Result.([]interface{})[index], _ = co.Await(t)
 		}
 
 		// send the  result
