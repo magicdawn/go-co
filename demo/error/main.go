@@ -3,9 +3,10 @@ package main
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/magicdawn/go-co"
 	. "github.com/tj/go-debug"
-	"time"
 )
 
 var debug = Debug("goco:demo:error")

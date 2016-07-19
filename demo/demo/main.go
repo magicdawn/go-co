@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/magicdawn/go-co"
 	"time"
+
+	"github.com/magicdawn/go-co"
 )
 
 //

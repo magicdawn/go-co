@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/magicdawn/go-co"
 	"github.com/magicdawn/go-co/task"
-	"time"
 )
 
 func main() {

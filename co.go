@@ -1,13 +1,7 @@
 //
-// async/await for glolang
+// Package co : async/await for glolang
 //
 package co
-
-import (
-	. "github.com/tj/go-debug"
-)
-
-var debug = Debug("goco:main")
 
 //
 // Task definition
@@ -24,7 +18,7 @@ type Task struct {
 }
 
 //
-// create a new *Task
+// Async : create a new *Task
 //
 // execute fn , save the result, send to channel
 //
@@ -33,7 +27,7 @@ type Task struct {
 // 	return val
 // 	// val will be Task's Result
 // })
-
+//
 func Async(fn func() interface{}) *Task {
 	t := new(Task)
 	t.Channel = make(chan interface{})
@@ -58,7 +52,8 @@ func Async(fn func() interface{}) *Task {
 	return t
 }
 
-// await a Task & return it's result
+//
+// Await : await a Task & return it's result
 //
 // e.g
 // res := co.Await(Task)

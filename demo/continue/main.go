@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/magicdawn/go-co"
 	"time"
+
+	"github.com/magicdawn/go-co"
 )
 
 func sleepAsync(ms int64) *co.Task {
