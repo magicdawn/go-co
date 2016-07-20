@@ -2,15 +2,8 @@ package task
 
 import "github.com/magicdawn/go-co"
 
-// import . "github.com/tj/go-debug"
-
-// run with
-// DEBUG=goco:demo:* go run map.go
-// var debug = Debug("goco:task:each")
-
-//
-// task.Each(array,func(item,index) *co.Task)
-//
+// Each(items, func(item,index) *co.Task)
+// iterate on array
 func Each(
 	items []interface{},
 	fn func(interface{}, int) *co.Task) *co.Task {

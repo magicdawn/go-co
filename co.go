@@ -4,20 +4,6 @@
 package co
 
 //
-// Task definition
-//
-type Task struct {
-	// communicate via Channel
-	Channel chan interface{}
-
-	// store the result of the Task
-	Result interface{}
-
-	// store error
-	Error error
-}
-
-//
 // Async : create a new *Task
 //
 // execute fn , save the result, send to channel

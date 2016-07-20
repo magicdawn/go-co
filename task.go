@@ -1,5 +1,20 @@
 package co
 
+//
+// Task definition
+//
+type Task struct {
+	// communicate via Channel
+	Channel chan interface{}
+
+	// store the result of the Task
+	Result interface{}
+
+	// store error
+	Error error
+}
+
+//
 // some extension on co.Task
 //
 // example:

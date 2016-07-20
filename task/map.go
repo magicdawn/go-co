@@ -1,11 +1,6 @@
 package task
 
 import "github.com/magicdawn/go-co"
-import . "github.com/tj/go-debug"
-
-// run with
-// DEBUG=goco:demo:* go run map.go
-var debug = Debug("goco:task:map")
 
 //
 // task.Map(array,func(item,index) *co.Task,concurrency)
