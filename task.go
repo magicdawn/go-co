@@ -14,7 +14,7 @@ type Task struct {
 	Error error
 }
 
-//
+// Continue a task
 // some extension on co.Task
 //
 // example:

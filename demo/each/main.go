@@ -12,11 +12,11 @@ func main() {
 	var items = []interface{}{1, 2, 3, 4, 5}
 
 	// new Task
-	var t = task.Each(items, func(item interface{}, index int) *co.Task {
+	var t = task.Each(items, func(item interface{}, index int, items []interface{}) *co.Task {
 		return co.Async(func() interface{} {
 			var s = item.(int)
 			time.Sleep(time.Second * time.Duration(s))
-			fmt.Println("[%s] = %s", index, item)
+			fmt.Printf("[%d] = %d\n", index, item)
 			return s
 		})
 	})

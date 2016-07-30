@@ -1,9 +1,6 @@
-//
 // Package co : async/await for glolang
-//
 package co
 
-//
 // Async : create a new *Task
 //
 // execute fn , save the result, send to channel
@@ -13,7 +10,6 @@ package co
 // 	return val
 // 	// val will be Task's Result
 // })
-//
 func Async(fn func() interface{}) *Task {
 	t := new(Task)
 	t.Channel = make(chan interface{})
@@ -38,7 +34,6 @@ func Async(fn func() interface{}) *Task {
 	return t
 }
 
-//
 // Await : await a Task & return it's result
 //
 // e.g
@@ -47,7 +42,6 @@ func Async(fn func() interface{}) *Task {
 func Await(t *Task) (interface{}, error) {
 	// when t.Channel is available
 	// set result as await ret value
-	// `result = await(Task)`
 	t.Result = <-t.Channel
 
 	return t.Result, t.Error
