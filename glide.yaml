@@ -1,0 +1,4 @@
+package: github.com/magicdawn/go-co
+import:
+- package: github.com/tj/go-debug
+  version: ^2.0.0

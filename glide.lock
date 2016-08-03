@@ -1,0 +1,6 @@
+hash: 24c5de4b70cc9a9b2a513172ddc26d8e94e983b7f3e26a3264f7674e8da547d7
+updated: 2016-08-03T14:02:12.340978498+08:00
+imports:
+- name: github.com/tj/go-debug
+  version: ff4a55a20a86994118644bbddc6a216da193cc13
+testImports: []
