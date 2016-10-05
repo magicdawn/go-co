@@ -12,7 +12,16 @@ to simulate
 
 *checkout blog http://magicdawn.ml/2015/01/10/generator-and-promise/*
 
+## Install
+with [glide](https://github.com/Masterminds/glide)
+
+```sh
+$ glide get github.com/magicdawn/go-co
+```
+
 ## API
+
+### `co`
 ```go
 import "github.com/magicdawn/go-co"
 ```
@@ -35,26 +44,12 @@ import "github.com/magicdawn/go-co"
 
     here is a Task will need 10 seconds
 
+### `coutil`
+
+- `coutil.Each` : like `Promise.each`
+- `coutil.Map` : like `Promise.map` with concurrency support
+
 *more checkout demo/ directory*
-
-## more
-其实我是来吐槽golang的...
-- 呢吗静态语言没有泛型,导致一坨 interface{}
-- 类型系统,这里本来定义了一个
-    ```go
-    type TaskDef struct {
-        // blabla ...
-    }
-
-    type Task *TaskDef
-
-    // 后面手动 new(TaskDef)应该就是*TaskDef = Task 类型
-    // 不认
-    ```
-- 错误处理,defer panic, 常用的try/catch/throw 不用
-    机制还是一样的，但是不好理解,defer recover相当于finally写在最前面
-    如果已经panic,再defer 已经不起作用
-- 差评!!!!!!!!!!!!!!!!!!
 
 ## License
 the MIT license (magicdawn@qq.com)
