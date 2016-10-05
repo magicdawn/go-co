@@ -51,5 +51,8 @@ import "github.com/magicdawn/go-co"
 
 *more checkout demo/ directory*
 
+## CHANGELOG
+[CHANGELOG.md](CHANGELOG.md)
+
 ## License
 the MIT license (magicdawn@qq.com)
