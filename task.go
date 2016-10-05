@@ -1,8 +1,9 @@
 package co
 
-//
-// Task definition
-//
+/**
+ * Task definition
+ */
+
 type Task struct {
 	// communicate via Channel
 	Channel chan interface{}
@@ -14,24 +15,23 @@ type Task struct {
 	Error error
 }
 
-// Continue a task
-// some extension on co.Task
-//
-// example:
-//
-// t
-// .Continue(func(t Task){
-//   t is previous Task
-// })
-// .Continue(func(t Task){
-//
-// })
-func (t *Task) Continue(
-	fn func(*Task) interface{}) *Task {
+/**
+ * Continue a task
+ *
+ * example:
+ * t.Continue(func(t Task){
+ *  // t is previous Task
+ * }).Continue(func(t Task){
+ *
+ * })
+ */
 
-	// return a wrapper Task
+func (t *Task) Continue(fn func(*Task) interface{}) *Task {
 	return Async(func() interface{} {
-		Await(t)
+		_, err := Await(t)
+		if err != nil {
+			panic(err) // bump up error
+		}
 
 		// t is original Task
 		return fn(t)

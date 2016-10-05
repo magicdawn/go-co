@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/magicdawn/go-co"
-	"github.com/magicdawn/go-co/task"
+	"github.com/magicdawn/go-co/coutil"
 )
 
 func sleep(sec int) *co.Task {
@@ -20,7 +20,7 @@ func main() {
 	fmt.Println("before work : ", time.Now())
 
 	// with concurrency 2
-	t := task.Map(items, func(item interface{}, index int) *co.Task {
+	t := coutil.Map(items, func(item interface{}, index int, arr []interface{}) *co.Task {
 		return co.Async(func() interface{} {
 			co.Await(sleep(item.(int)))
 			return item.(int) * item.(int)

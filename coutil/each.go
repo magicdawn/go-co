@@ -1,11 +1,11 @@
-package task
+package coutil
 
 import "github.com/magicdawn/go-co"
 
-// Each iterate a array
+// Each: coutil.Each iterate a array
 //
 // example:
-//  task.Each(arr, func(item, index, arr) { ... })
+//  coutil.Each(arr, func(item, index, arr) { ... })
 func Each(
 	items []interface{},
 	fn func(interface{}, int, []interface{}) *co.Task) *co.Task {

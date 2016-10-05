@@ -1,8 +1,8 @@
-package task
+package coutil
 
 import "github.com/magicdawn/go-co"
 
-// Map : task.Map(array,func(item,index) *co.Task,concurrency)
+// Map : coutil.Map with concurrency
 func Map(
 	items []interface{},
 	fn func(interface{}, int, []interface{}) *co.Task,

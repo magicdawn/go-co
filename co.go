@@ -2,7 +2,6 @@
 package co
 
 // Async : create a new *Task
-//
 // execute fn , save the result, send to channel
 //
 // e.g
@@ -13,10 +12,6 @@ package co
 func Async(fn func() interface{}) *Task {
 	t := new(Task)
 	t.Channel = make(chan interface{})
-
-	// run the task
-	// collect the result
-	// set as the ret Task's Channel
 	go func() {
 		// final work
 		defer func() {
