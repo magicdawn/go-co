@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/magicdawn/go-co"
-	. "github.com/tj/go-debug"
+	. "github.com/visionmedia/go-debug"
 )
 
 var debug = Debug("goco:demo:error")

@@ -1,7 +1,7 @@
 package co
 
 import (
-	d "github.com/tj/go-debug"
+	d "github.com/visionmedia/go-debug"
 )
 
 // debug util
